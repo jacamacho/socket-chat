@@ -14,7 +14,7 @@ var usuario = {
 socket.on('connect', function() {
     console.log('Conectado al servidor');
     socket.emit('entrarChat', usuario, (data) => {
-        console.log(data);
+        renderizarUsuarios(data);
     });
 });
 
@@ -23,20 +23,21 @@ socket.on('disconnect', function() {
 });
 
 socket.on('crearMensaje', (mensaje) => {
-    console.log(mensaje);
+    renderizarMensaje(mensaje, false);
+    scrollBottom();
 });
 
 socket.on('listaPersona', (usuarios) => {
-    console.log(usuarios);
+    renderizarUsuarios(usuarios);
 });
 
 //Enviar Información
-socket.emit('crearMensaje', {
-    usuario: 'John Andrés',
-    mensaje: 'Hola mundo'
-}, function(data) {
-    console.log('Se lanzo el callback', data);
-});
+// socket.emit('crearMensaje', {
+//     usuario: 'John Andrés',
+//     mensaje: 'Hola mundo'
+// }, function(data) {
+//     console.log('Se lanzo el callback', data);
+// });
 
 //Mensajes privados
 socket.on('mensajePrivado', (mensaje) => {
